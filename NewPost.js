@@ -27,7 +27,7 @@ var NewPost = (function() {
             postObj.id = postIncrement;
             postObj.comments = [];
 
-            
+            console.log('post getting triggered');
             $(document).trigger('doc:addToListing', postObj);
 
             //reset form fields
