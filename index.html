@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Simple Forum</title>
+</head>
+<body>
+    
+        <script id="users-template" type="text/x-handlebars-template">
+        <div class="forum-container">
+        
+        <!-- new post  -->
+        <div class="newPost">
+            <h3 class="newPost-title">New Post</h3>
+            <form class="newPostForm">
+                    <input type="text>" placeholder="name" name="name"><br>
+                    <input type="text>" placeholder="title" name="title"><br>
+                    <textarea class="newPost-body"></textarea><br>
+                    <input type="submit">   
+            </form>
+        </div>
+        <!-- main post listing area -->
+        <div class="container">
+            {{#each posts}}   
+            <div class="post-container" data-page="{{page}}">
+                <h4 class="title">{{title}} 
+                    <span class="postNumber">{{addOne @index}}/{{../posts.length}}</span>
+                </h4>
+                <div class="post">
+                    <p class="postBody">{{postBody}}</p>
+                    <p class="name">By {{name}}
+                    <br><span class="commentsNum">Comments ({{comments.length}})</span>
+                    </p>
+                </div>
+                <div class="comments">
+                    {{#comments comments}}
+                    <p class="commentor">{{commentor}}</p>
+                    <p class="commentBody">{{commentBody}}</p>
+                    {{/comments}}
+                    <form class="commentForm" data-postid="{{id}}">
+                        <input type="text>" placeholder="name" name="name"><br>
+                        <textarea class="leave-comment"></textarea><br>
+                        <input type="submit">                
+                    </form>
+                </div>
+            </div>
+        {{/each}}
+        </div>
+        <!-- Activity feed -->
+        <div class="activity">
+            <h3 class="activity-title">Activity Feed</h3>
+        </div>
+
+        <!-- end of forum container -->
+        </div>
+        
+        <!-- pagination nav -->
+        <div class="pages"></div>
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="handlebars-v4.0.11.js"></script>
+    <script src="moment.js"></script>
+    <script src="timeago.js"></script>
+    <script src="data.js"></script>
+    <script src="ActivityFeed.js"></script>
+    <script src="PostListings.js"></script>
+    <script src="NewPost.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

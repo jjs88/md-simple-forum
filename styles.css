@@ -1,0 +1,160 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width:60%;
+    /* flex-wrap: wrap; */
+}
+
+.forum-container {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: row;
+}
+
+.activity {
+    width:25%;
+    /* border:2px solid black; */
+    overflow: scroll;
+    max-height: 600px;
+}
+
+.activity-title,
+.newPost-title {
+    margin:3px;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    width:80%;
+}
+
+.post-container {
+    border:1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    width:95%;
+    display: flex;
+    margin:5px;
+}
+
+.postNumber {
+    float: right;
+    padding:5px;
+}
+
+.title {
+    /* text-align: center; */
+    margin:0;
+    padding:5px;
+
+}
+
+.postBody {
+    margin:0;
+}
+
+.postBody, .name {
+    padding:5px;
+}
+
+
+.commentPost {
+    font-style: italic;
+    font-size: 90%;
+}
+
+.activityCommentor {
+    padding:2px;
+    background-color: bisque;
+    border-radius: 5px;
+    font-size: 85%;
+    font-style: italic;
+}
+
+
+
+.activityComment {
+    margin-top: 3px;
+}
+
+.commentor {
+    font-style: italic;
+    padding:5px;
+    margin:2px;
+}
+
+.commentBody {
+    /* background-color: antiquewhite; */
+    border-bottom: 1px solid black;
+    /* border-radius: 5px; */
+    padding: 5px;
+    margin:0;
+    width:55%;
+}
+
+
+.comments {
+    background-color: antiquewhite;
+    margin: 0 auto;
+    border-top: 1px solid black;
+    border-radius: 5px;
+    display: none;
+    width:80%;
+    /* transition: all  ease-in; */
+}
+
+.commentsNum:hover {
+    cursor: pointer;
+    background-color: antiquewhite;
+}
+
+.leave-comment {
+    border: 1px solid black;
+    width:300px;
+    height:50px;
+}
+
+.pages {
+    
+    display: flex;
+    justify-content: center;
+    margin-top:80px;
+}
+
+.page {
+    background-color: rgb(211, 219, 226);
+    border-radius: 5px;
+    color: #999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border:1px solid black; */
+    padding:3px;
+    margin:3px;
+    height:25px;
+    width:25px;
+}
+
+.page:hover {
+    background-color: rgb(187, 195, 202);
+    color: #e5e5e5;
+    cursor: pointer;
+}
+
+.timestamp {
+    margin-left:10px;
+    font-style: italic;
+    font-size: 80%;
+}
+
+.newPost {
+    width:25%;
+    /* border:2px solid black; */
+    max-height: 300px;
+}
+
+.feedItem {
+    border-bottom: 1px solid black;
+}
