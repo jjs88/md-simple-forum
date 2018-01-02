@@ -3,14 +3,6 @@
 
 
 
-    console.log('app loaded');
-
-    Data.init();
-
-
-
-
-
-
+    console.log('app initialized', Data.init());
 
 })();
