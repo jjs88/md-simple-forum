@@ -1,6 +1,6 @@
 var NewPost = (function() {
 
-    var postIncrement = 100;
+    var postId = 100;
     var $newPostForm;
 
 
@@ -17,14 +17,14 @@ var NewPost = (function() {
 
         if($name && $title && $post) {
 
-            postIncrement++;
+            postId++;
 
             let postObj = {};
 
             postObj.name = $name;
             postObj.title = $title;
             postObj.postBody = $post;
-            postObj.id = postIncrement;
+            postObj.id = postId;
             postObj.comments = [];
 
             console.log('post getting triggered');
