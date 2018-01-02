@@ -4,36 +4,43 @@ var ActivityFeed = (function() {
 
     function addCommentToFeed(post, comment, name) {
 
-        let $feedItem = $('<div/>')
+
+        if(comment && name) {
+
+            let $feedItem = $('<div/>')
             .addClass('feedItem')
             .data('recentActivity', 'test')
 
-        let $comment = $('</p>')
-            .addClass('activityComment')
-            .text(comment)
+            let $comment = $('</p>')
+                .addClass('activityComment')
+                .text(comment)
 
-        let $timeStamp = $('<span/>')
-            .addClass('timestamp')
+            let $timeStamp = $('<span/>')
+                .addClass('timestamp')
 
-        let $title = $('<p/>')
-            .addClass('commentPost')
-            .text(post.title);
+            let $title = $('<p/>')
+                .addClass('commentPost')
+                .text('commented in: ' + post.title);
 
-        let $commentor = $('<span/>')
-            .addClass('activityCommentor')
-            .text(name + ' says:')
-            
+            let $commentor = $('<span/>')
+                .addClass('activityCommentor')
+                .text(name + ' says:')
+                
 
-        $feedItem.append($commentor);
-        $feedItem.append($comment);
-        $feedItem.append($title);
+            $feedItem.append($commentor);
+            $feedItem.append($comment);
+            $feedItem.append($title);
 
-        $comment.append($timeStamp);
+            $comment.append($timeStamp);
 
-        $feedItem.insertAfter('.activity-title');
+            $feedItem.insertAfter('.activity-title');
 
-    
-        TimeAgo.init($timeStamp);
+        
+            TimeAgo.init($timeStamp);
+
+        }
+
+        
     }
 
 

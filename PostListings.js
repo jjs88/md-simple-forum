@@ -239,7 +239,7 @@ var PostListings = (function() {
                 
                 post.comments.push({commentor: $name, commentBody: $comment});
 
-                $commentsNum.html(`<br> Comments(${post.comments.length})`);
+                $commentsNum.html(`<br>Comments(${post.comments.length})`);
 
                 //pass data to activity feed 
                 $(document).trigger('doc:addToFeed', [post, $comment, $name]);
@@ -292,7 +292,7 @@ var PostListings = (function() {
 
         let $postName = $('<p/>')
             .addClass('name')
-            .html('By ' + post.name)
+            .text('By ' + post.name)
 
         let $commentsNum = $('<span/>')
             .addClass('commentsNum')
