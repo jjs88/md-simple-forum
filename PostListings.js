@@ -330,7 +330,18 @@ var PostListings = (function() {
         $form.on('submit', addComment);
         $postContainer.css('display', 'none');
         $title.on('click', clickPost);
+        updatePostNumber();
 
+    }
+    
+
+    function updatePostNumber() {
+
+        let $elements = $('.postNumber');
+
+        $elements.each(function(index) {
+            $(this).text(`${index+1}/${posts.length}`);
+        });
     }
 
 
