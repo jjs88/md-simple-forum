@@ -105,6 +105,11 @@
     /* transition: all  ease-in; */
 }
 
+.commentsNum {
+    font-size: 90%;
+    font-style: italic;
+}
+
 .commentsNum:hover {
     cursor: pointer;
     background-color: antiquewhite;

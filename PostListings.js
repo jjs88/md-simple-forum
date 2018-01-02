@@ -292,7 +292,7 @@ var PostListings = (function() {
 
         let $postName = $('<p/>')
             .addClass('name')
-            .html(post.name)
+            .html('By ' + post.name)
 
         let $commentsNum = $('<span/>')
             .addClass('commentsNum')
