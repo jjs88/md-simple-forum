@@ -253,6 +253,7 @@ var PostListings = (function() {
 
     function render() {
 
+        console.log(posts);
         let html = createTemplate('#users-template', posts);
         $(document.body).append(html);        
     }
