@@ -3,10 +3,6 @@ var PostListings = (function() {
     var usersRaw, postsRaw, commentsRaw, $pages, $Container, $commentForm,
     $currentPost, $commentsNum, $currentComments, $sameComment, $post, $title, $newPostForm;
 
-    var postIncrement = 101;
-
-    var reRender = 0;
-
     var posts = []; //data model for combined data
 
 
@@ -18,11 +14,6 @@ var PostListings = (function() {
         let template = Handlebars.compile(templateStr); //create template
 
         return template({posts}); //return html with injected data    
-    }
-
-
-    function renderTemplate(input) {
-
     }
 
 

@@ -27,7 +27,7 @@ var TimeAgo = (function() {
             this.element.text(str);
 
             this.timer = setTimeout( () => {
-                console.log('calling timeout',this);
+                // console.log('calling timeout',this);
                 this.render();
             }, 60000) //re-render the .timestamp span value every minute
         }
