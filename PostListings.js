@@ -276,6 +276,7 @@ var PostListings = (function() {
 
         let $post = $('<div/>')
             .addClass('post')
+            .css('display', 'none')
 
         let $postBody = $('<p/>')
             .addClass('postBody')
