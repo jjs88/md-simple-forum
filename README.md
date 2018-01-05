@@ -38,7 +38,29 @@ Also, all the other posts need to be updated to reflect the total post count. Up
     }
 ````
 
-Again, this would be handled if data-binding was used for the project.
+Similar to the posts, when someone makes a comment on a post, the total comments number has to reflect this. Again, heavy DOM manipulation had to be done to achieve this:
+
+````
+ let $commentsNum = $(this).parent().prev().children().last().children().last(); //get the element for Comments()
+
+        //find correct post and add comment to object model
+        posts.filter(post => post.id === postID)
+            .forEach(post => {
+                
+                post.comments.push({commentor: $name, commentBody: $comment});
+
+                $commentsNum.html(`<br>Comments(${post.comments.length})`);
+
+                //pass data to activity feed 
+                $(document).trigger('doc:addToFeed', [post, $comment, $name]);
+
+                //reset form fields
+                $(this).find("input[name=name]").val("");
+                $(this).find('.leave-comment').val("");
+            });
+````
+
+Again, this would be handled if data-binding was used for the project. 
 
 
 
