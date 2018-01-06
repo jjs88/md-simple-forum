@@ -219,26 +219,27 @@ var PostListings = (function() {
             $newComment.append($commentor).append($commentBody);
             $($parent).find('form:last-child').before($newComment);
 
+
+            let $commentsNum = $(this).parent().prev().children().last().children().last(); //get the element for Comments()
+
+            //find correct post and add comment to object model
+            posts.filter(post => post.id === postID)
+                .forEach(post => {
+                    
+                    post.comments.push({commentor: $name, commentBody: $comment});
+    
+                    $commentsNum.html(`<br>Comments(${post.comments.length})`);
+    
+                    //pass data to activity feed 
+                    $(document).trigger('doc:addToFeed', [post, $comment, $name]);
+    
+                    //reset form fields
+                    $(this).find("input[name=name]").val("");
+                    $(this).find('.leave-comment').val("");
+                });
+
         }
 
-
-        let $commentsNum = $(this).parent().prev().children().last().children().last(); //get the element for Comments()
-
-        //find correct post and add comment to object model
-        posts.filter(post => post.id === postID)
-            .forEach(post => {
-                
-                post.comments.push({commentor: $name, commentBody: $comment});
-
-                $commentsNum.html(`<br>Comments(${post.comments.length})`);
-
-                //pass data to activity feed 
-                $(document).trigger('doc:addToFeed', [post, $comment, $name]);
-
-                //reset form fields
-                $(this).find("input[name=name]").val("");
-                $(this).find('.leave-comment').val("");
-            });
     }
 
 
