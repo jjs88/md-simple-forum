@@ -15,7 +15,7 @@ var NewPost = (function() {
 
 
 
-        if($name && $title && $post) {
+        if($name && $title && $post) { //only submit if values are filled in
 
             postId++;
 
@@ -27,7 +27,6 @@ var NewPost = (function() {
             postObj.id = postId;
             postObj.comments = [];
 
-            console.log('post getting triggered');
             $(document).trigger('doc:addToListing', postObj);
 
             //reset form fields

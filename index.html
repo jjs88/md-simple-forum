@@ -10,7 +10,7 @@
 </head>
 <body>
     
-        <script id="users-template" type="text/x-handlebars-template">
+        
         <div class="forum-container">
         
         <!-- new post  -->
@@ -23,33 +23,10 @@
                     <input type="submit">   
             </form>
         </div>
+
         <!-- main post listing area -->
-        <div class="container">
-            {{#each posts}}   
-            <div class="post-container" data-page="{{page}}">
-                <h4 class="title">{{title}} 
-                    <span class="postNumber">{{addOne @index}}/{{../posts.length}}</span>
-                </h4>
-                <div class="post">
-                    <p class="postBody">{{postBody}}</p>
-                    <p class="name">By {{name}}
-                    <br><span class="commentsNum">Comments ({{comments.length}})</span>
-                    </p>
-                </div>
-                <div class="comments">
-                    {{#comments comments}}
-                    <p class="commentor">{{commentor}}</p>
-                    <p class="commentBody">{{commentBody}}</p>
-                    {{/comments}}
-                    <form class="commentForm" data-postid="{{id}}">
-                        <input type="text>" placeholder="name" name="name"><br>
-                        <textarea class="leave-comment" placeholder="type your comment..."></textarea><br>
-                        <input type="submit">                
-                    </form>
-                </div>
-            </div>
-        {{/each}}
-        </div>
+        <div class="container"></div>
+
         <!-- Activity feed -->
         <div class="activity">
             <h3 class="activity-title">Activity Feed</h3>
@@ -60,7 +37,39 @@
         
         <!-- pagination nav -->
         <div class="pages"></div>
+
+
+
+
+        <!-- appends to container on initial page load (many posts)-->
+        <script id="posts-template" type="text/x-handlebars-template">
+            {{#each posts}}   
+              {{>postsPartial}}
+            {{/each}} 
         </script>
+
+        <!-- appends to container when making a post (one post)-->
+        <script id="post-template" type="text/x-handlebars-template"> 
+              {{>postsPartial}}
+        </script>
+
+
+        <!-- appends to comments div when making a comment -->
+        <script id="comment-template" type="text/x-handlebars-template"> 
+            <div class="comment">
+                <p class="commentor">{{commentor}}</p>
+                <p class="commentBody">{{commentBody}}</p>
+            </div>
+      </script>
+
+
+
+
+
+
+
+
+
 
 
 

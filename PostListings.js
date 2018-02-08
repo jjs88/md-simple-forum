@@ -1,20 +1,10 @@
 var PostListings = (function() {
 
     var usersRaw, postsRaw, commentsRaw, $pages, $Container, $commentForm,
-    $currentPost, $commentsNum, $currentComments, $sameComment, $post, $title, $newPostForm;
+    $currentPost, $commentsNum, $currentComments, $sameComment, $post, $title, $newPostForm,
+    postsTemplate, postTemplate;
 
     var posts = []; //data model for combined data
-
-
-
-
-    function createTemplate(input, posts) {
-
-        let templateStr = $(input).html(); //create string
-        let template = Handlebars.compile(templateStr); //create template
-
-        return template({posts}); //return html with injected data    
-    }
 
 
     function combineData(usersRaw, postsRaw, commentsRaw) {
@@ -205,30 +195,20 @@ var PostListings = (function() {
 
         if($name && $comment) {
 
-            let $newComment = $('<div/>')
-                .addClass('comment');
-            
-            let $commentor = $('</p>')
-                .addClass('commentor')
-                .text($name);
+            let comment = {commentor: $name, commentBody: $comment}
 
-            let $commentBody = $('<p/>')
-                .addClass('commentBody')
-                .text($comment);
-            
-            $newComment.append($commentor).append($commentBody);
-            $($parent).find('form:last-child').before($newComment);
+            injectComment(commentTemplate, comment, $parent.find('form:last-child'));
 
 
             let $commentsNum = $(this).parent().prev().children().last().children().last(); //get the element for Comments()
-
+  
             //find correct post and add comment to object model
             posts.filter(post => post.id === postID)
                 .forEach(post => {
                     
                     post.comments.push({commentor: $name, commentBody: $comment});
     
-                    $commentsNum.html(`<br>Comments(${post.comments.length})`);
+                    $commentsNum.html(`Comments(${post.comments.length})`);
     
                     //pass data to activity feed 
                     $(document).trigger('doc:addToFeed', [post, $comment, $name]);
@@ -243,84 +223,29 @@ var PostListings = (function() {
     }
 
 
-    function render() {
-
-        console.log(posts);
-        let html = createTemplate('#users-template', posts);
-        $(document.body).append(html);        
+    function render() {  
+        injectPosts(postsTemplate, posts, $Container);     
     }
 
 
     function createNewPosting(post) {
 
-
         let pages = pagination(posts); //redo pagination data attributes since new post added
- 
-        let postLength = posts.length;
-        let currentPostNum = posts.length;
 
-        let $postContainer = $('<div/>')
-            .addClass('post-container')
-            .attr('data-page', post.page)
-
-        let $title = $('<h4/>')
-            .addClass('title')
-            .text(post.title)
-
-        let $postNumber = $('<span/>')
-            .addClass('postNumber')
-            .text(`${currentPostNum}/${postLength}`)
-
-        $title.append($postNumber);
-        $postContainer.append($title);
-        $Container.append($postContainer);
-
-        let $post = $('<div/>')
-            .addClass('post')
-            .css('display', 'none')
-
-        let $postBody = $('<p/>')
-            .addClass('postBody')
-            .text(post.postBody)
-
-        let $postName = $('<p/>')
-            .addClass('name')
-            .text('By ' + post.name)
-
-        let $commentsNum = $('<span/>')
-            .addClass('commentsNum')
-            .html(`<br> Comments(${post.comments.length})`)
-
-
-        $post.append($postBody);
-        $postName.append($commentsNum);
-        $post.append($postName);
-        $postContainer.append($post)
-
-        //comments section
-        let $comments = $('<div/>')
-            .addClass('comments')
-
-
-        let $form = $('<form/>')
-                .addClass('commentForm')
-                .data('postid', post.id)
-
-        let $nameInput = '<input type="text>" placeholder="name" name="name"><br>';
-        let $textArea = '<textarea class="leave-comment"></textarea><br>';
-        let $submit = '<input type="submit">';
-
-        $postContainer.append($comments);
-        $form.append($nameInput).append($textArea).append($submit);
-        $comments.append($form);
-
-
+        injectPost(postTemplate, post, $Container);
+        
         //add events and re-do pagination
         $('.pages').empty();
         createPages(pages); //create pages
 
+        //get last post container to add the events
+        let $commentsNum = $('.commentsNum').last();
+        let $commentForm = $('.commentForm').last();
+        let $postContainer = $('.post-container').last();
+        let $title = $('.title').last();
+
         $commentsNum.on('click', clickComments);
-        $form.on('submit', addComment);
+        $commentForm.on('submit', addComment);
         $postContainer.css('display', 'none');
         $title.on('click', clickPost);
         updatePostNumber();
@@ -343,13 +268,10 @@ var PostListings = (function() {
         posts.push(post);
     }
 
+    /*************************************************** */
+    //CUSTOM EVENTS
+    /*************************************************** */
 
-
-
-
-
-
-    //custom events
     $(document).on('doc:getData', function(e, ...data) {
     
         usersRaw = data[0]; 
@@ -369,22 +291,80 @@ var PostListings = (function() {
     });
 
 
+    /*************************************************************** */
+    //HANDLEBARS TEMPLATES / DATA INJECTION
+    /**************************************************************** */
 
-    Handlebars.registerHelper('comments', function (context, options) {
+    function createTemplate(temp) {
+
+        let templateStr = $(temp).html(); //create string
+        let template = Handlebars.compile(templateStr); //create template
+        return template; //return template to inject data into
+    }
+
+
+    function injectPosts(template, posts, element) { //used for collection of users
+        element.append(template({posts}));
+        // return template({users});
+    }
+
+    function injectPost(template, post, element) { //used for collection of users
+        element.append(template(post));
+        // return template({users});
+    }
+
+    function injectComment(template, comment, element) {
+        element.before(template(comment));
+    }
+
+
+    /******************************************** */
+    // HANDLEBARS HELPERS/PARTIALS
+    /******************************************** */
+
+    Handlebars.registerHelper('comments', function (comments, options) {
 
         var out = '';
-        for (var i = 0, ii = context.length; i < ii; i++) {
+        for (var i = 0, ii = comments.length; i < ii; i++) {
 
-            out += `<div class="comment">${options.fn(context[i])}</div>`;   
+            out += `<div class="comment">${options.fn(comments[i])}</div>`;   
         }
 
         return out;
     });
 
 
-    Handlebars.registerHelper('addOne', function (val) {
-        return val + 1;
-    });
+    Handlebars.registerHelper('addOne', function (val) { return val + 1; });
+
+
+    Handlebars.registerHelper('totalPosts', function() { return posts.length; })
+
+
+    var postsPartial = ` <div class="post-container" data-page="{{page}}">
+        <h4 class="title">{{title}} 
+            <span class="postNumber">{{addOne @index}}/{{totalPosts}}</span>
+        </h4>
+        <div class="post">
+            <p class="postBody">{{postBody}}</p>
+            <p class="name">By {{name}}
+            <br><span class="commentsNum">Comments ({{comments.length}})</span>
+            </p>
+        </div>
+        <div class="comments">
+            {{#comments comments}}
+            <p class="commentor">{{commentor}}</p>
+            <p class="commentBody">{{commentBody}}</p>
+            {{/comments}}
+            <form class="commentForm" data-postid="{{id}}">
+                <input type="text>" placeholder="name" name="name"><br>
+                <textarea class="leave-comment" placeholder="type your comment..."></textarea><br>
+                <input type="submit">                
+            </form>
+        </div>
+    </div>`
+
+
+    Handlebars.registerPartial('postsPartial', postsPartial);
 
 
     
@@ -393,7 +373,10 @@ var PostListings = (function() {
 
     function init() {
 
-        console.log('PostListings initialized');
+        //create templates 
+        postsTemplate = createTemplate('#posts-template');
+        postTemplate = createTemplate('#post-template');
+        commentTemplate = createTemplate('#comment-template');
 
         let promise = combineData(usersRaw, postsRaw, commentsRaw);
 
@@ -401,6 +384,7 @@ var PostListings = (function() {
 
 
                 let pages = pagination(posts);
+                cacheDOM();
                 render(); //render data
                 createPages(pages); //create pages
                 displayPageOne($('.post-container'));  

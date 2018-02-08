@@ -2,7 +2,7 @@ var Data = (function() {
 
 
     function retrieveData(url) {
-
+        // console.log($);
         return promise = new Promise(function(resolve, reject) {
             $.ajax(url, {
 
